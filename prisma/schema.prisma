@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model question {
+  id       Int      @id @default(autoincrement())
+  askedBy  String   @db.VarChar(50)
+  question String   @db.Text
+  answer   answer[]
+}
+
+model answer {
+  id         Int      @id @default(autoincrement())
+  answeredBy String   @db.VarChar(50)
+  answer     String   @db.Text
+  question   question @relation(fields: [questionId], references: [id])
+  questionId Int
+}
